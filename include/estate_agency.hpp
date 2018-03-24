@@ -12,9 +12,9 @@ using std::string
 class Database;
 class Owner;
 class House;
-class Size;
-class Price;
-class Adress;
+class Size; //?
+class Price; //?
+class Adress; //?
 
 
 
