@@ -24,15 +24,14 @@ class Record
   friend Data;
 public:
   string name;
-  explicit Record(string &name_c); //unimplemented
-    :name(name_c)
-  {}
-  Record(string &name_c, Data::Data_Object *attribute, ...); //unimplemented
-  Record(string &name_c, Record *belonging, ...); //unimplemented
-  void add_attribute(); //unimplemented
-  void add_belonging(); //unimplemented
+  explicit Record(string &name_c);
+    :name(name_c)  {}
+  Record(string &name_c, Record *belonging);
+  void add_attribute(Data::Data_Object *attribute); //unimplemented
+  //void add_attribute(int poz, Data::Data_Object *attribute);
+  void add_belonging(Record *belonging);
 private:
-  vector<Data*> attributes{};
+  vector<Data::Data_Object*> attributes{};
 	vector<Record*> belongings{};
 };
 
@@ -48,6 +47,7 @@ class Data<T>
     Data_Object *prev;
     Data_Object *next;
     vector<Record> mine;
+    add_owner(Record * owner);
     Data_Object(T &data_c, Record * owner);
     ~Data_Object();
   };
@@ -82,6 +82,7 @@ template<class T>
 Data<T>::Data_Object::Data_Object(T &data_c, Data::Data_Object * prev_n, Record * owner)
   :data(data_c) //applying data
 {
+  if(owner != NULL)
   mine.push_back(owner); //setting ownership
 	return new_n;
 }
