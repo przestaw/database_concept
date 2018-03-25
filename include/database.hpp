@@ -54,16 +54,16 @@ class Data<T>
 public:
   string name;
   Data_Object * add(T &data_c, Record * owner);
-  Data_Object * search(T &data); //unimplemented
+  Data_Object * search(T &data);
   Data(string &name_c);
-  Data(string &name_c, T &data, Record * whose); //unimplemented
+  Data(string &name_c, T &data, Record * whose);
   Data(&Data old);
     { throw ("Copy constructor for Data Class is not yet implemented"); }
-  ~Data(); //unimplemented
+  ~Data(); //consider it done
 private:
   Data_Object * begin;
   Data_Object * end;
-  Data_Object * search_poz(T &data); //unimplemented
+  Data_Object * search_poz(T &data); // WIP
 };
 
 template<class T>
@@ -72,11 +72,39 @@ Data::Data(string &name_c)
 {}
 
 template<class T>
+Data::Data(string &name_c, T &data, Record * whose)
+  :Data(&name_c)
+{
+  add(&data, whose);
+}
+
+template<class T>
 Data<T>::Data_Object::Data_Object(T &data_c, Data::Data_Object * prev_n, Record * owner)
   :data(data_c) //applying data
 {
   mine.push_back(owner); //setting ownership
 	return new_n;
+}
+
+template<class T>
+Data::~Data()
+{
+  Data::Data_Object * ptr=begin;
+  if(ptr != end)
+  {
+    while(ptr != end)
+    {
+      ptr=ptr->next;
+      delete ptr->prev;
+    }
+    delete ptr; //deleting last element
+  }else
+  {
+    if(ptr != NULL) // if ptr is NULL there is nothing to 'delete'
+    {
+      delete ptr;
+    }
+  }
 }
 
 template<class T>
@@ -146,6 +174,37 @@ Data::Data_Object * Data::Data_Object::add(T &data_c, Record * owner)
     }
   }
   return ptr;
+}
+
+template<class T>
+Data::Data_Object * Data::search_poz(T &data)
+{
+  Data::Data_Object * ptr;
+  for(begin = start; ptr != end; ptr=ptr->next)
+  {
+    if(ptr->data == data)
+    {
+      return ptr;
+    }
+    if(ptr->data > data)
+    {
+      return ptr->prev;
+    }
+  }
+  return NULL;//consider adding variant for 1 element list
+}
+
+template<class T>
+Data::Data_Object * Data::search(T &data)
+{
+  Data::Data_Object * ptr;
+  if( (ptr = search_poz(T &data))->data == data)
+  {
+    return ptr;
+  }else
+  {
+    return NULL;
+  }
 }
 
 #endif //DATABASE_CONCEPT_DATABASE_HPP
