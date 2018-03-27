@@ -8,15 +8,12 @@
  #include "../include/database.hpp"
 
 Record::Record(string &name_c, Record *belonging)
-  :Record(name_c)
+		:name(name_c)
 {
-  //va_list belo;
-  //va_start(belo, attribute);
-   belongings.push_back(belonging);
-  //va_end(belo);
+	add_belonging(belonging);
 }
 
 void Record::add_belonging(Record *belonging)
 {
-  belongings.push_back(belonging);
+	belongings.push_back(belonging);
 }
