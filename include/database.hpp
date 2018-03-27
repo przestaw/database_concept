@@ -10,9 +10,11 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 #define string std::basic_string<char>
 using std::vector;
+using std::ostream;
 
 class Record;
 
@@ -28,6 +30,7 @@ public:
 	explicit Data_Object(T &data_c);
 	~Data_Object();
 	vector<Record*> mine;
+	friend ostream& operator<<(ostream& os, const Data_Object<T,O> * obj_ptr);
 };
 
 
@@ -39,6 +42,7 @@ public:
 	Data<T,O>(const Data<T,O> &old){throw ("Copy constructor for Data Class is not yet implemented"); };
 	Data_Object<T,O> * add(T &data_a, O * owner);
 	Data_Object<T,O> * search(T &data);
+	friend ostream& operator<<(ostream& os, const Data * obj_ptr);
 private:
 	Data_Object<T,O> * begin;
 	Data_Object<T,O> * end;
@@ -69,18 +73,18 @@ Data_Object<T,O>::Data_Object (T &data_c)
 template <class T, class O>
 Data_Object<T,O>::~Data_Object<T,O>()
 {
-	if(this->next != NULL || this->prev != NULL)
+	if(this->next != nullptr || this->prev != nullptr)
 	{
-		if(this->next != NULL && this->prev != NULL)
+		if(this->next != nullptr && this->prev != nullptr)
 		{
 			this->next->prev = this->prev;
 			this->prev->next = this->next;
 		}
-		if (this->next == NULL)
+		if (this->next == nullptr)
 		{
 			this->prev->next = this->next;
 		}
-		if (this->prev == NULL)
+		if (this->prev == nullptr)
 		{
 			this->next->prev = this->prev;
 		}
@@ -91,6 +95,13 @@ template <class T, class O>
 void Data_Object<T,O>::add_owner(O *owner)
 {
 	mine.push_back(owner);
+}
+
+template <class T, class O>
+ostream&  operator<<(ostream& os, const Data_Object<T,O> * obj_ptr)
+{
+	os << obj_ptr->data;
+	return os;
 }
 
 // _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
@@ -113,7 +124,7 @@ Data_Object<T,O> * Data<T,O>::search_poz(T &data)
 			return ptr->prev;
 		}
 	}
-	return NULL;			//consider adding variant for 1 element list
+	return nullptr;			//consider adding variant for 1 element list
 }
 
 template <class T, class O>
@@ -125,7 +136,7 @@ Data_Object<T,O> * Data<T,O>::search(T &data)
 		return ptr;
 	}else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -133,7 +144,7 @@ template <class T, class O>
 Data_Object<T,O> * Data<T,O>::add(T &data_a,O * owner)
 {
 	Data_Object<T,O> * ptr;
-	if(begin == NULL)
+	if(begin == nullptr)
 	{
 		ptr = new Data_Object<T,O>(&data_a);
 		end = ptr;
@@ -179,8 +190,20 @@ Data_Object<T,O> * Data<T,O>::add(T &data_a,O * owner)
 	return ptr;
 }
 
+template <class T, class O>
+ostream& operator<<(ostream& os, const Data<T,O> * obj_ptr)
+{
+	Data_Object<T,O> * ptr;
+	ptr = obj_ptr->begin;
+	if(ptr){
+		os << ptr << '\n';
+		do{
+			ptr=ptr->next;
+			os << ptr << '\n';
+		}while(ptr != obj_ptr->end);
+	}
+	return os;
+}
+
 // _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
-
-
-
 #endif //DATABASE_CONCEPT_DATABASE_HPP

@@ -13,7 +13,7 @@
 //#include <vector>
 //#define string std::basic_string<char>
 
-//#define NULL nullptr
+
 
 
 class Estate;
@@ -25,10 +25,23 @@ class Estate
 {
 public:
 	string name;
-	Estate() :name("empty") {};
+	Estate() :name("unnamed") {};
 	explicit Estate(string &name_c) :name(name_c) {};
 	int get_size(); //UNIMPLEMENTED
-	void add(Owner * owner_a);
+	void add_owner(int &telephone, string &name_c); //UNIMPLEMENTED
+	void add_owner(int &telephone, string &name_c, House * house_c); //UNIMPLEMENTED
+	void add_house(int size_c, int price_c, string adress, string &name); //UNIMPLEMENTED
+	void add_house(int &size_c, int &price_c, string &adress, string &name_c, Owner * owner_c); //UNIMPLEMENTED
+
+	Owner * get_owner(string &name); //UNIMPLEMENTED
+	Owner * get_owner(int &telephone); //UNIMPLEMENTED
+	Owner * get_owner(House * house); //UNIMPLEMENTED
+
+	House * get_house(string &name); //UNIMPLEMENTED
+
+	void show(int mode); //only working for 1 //UNIMPLEMENTED
+	void show(House * house); //UNIMPLEMENTED
+	void show(Owner * owner); //UNIMPLEMENTED
 private:
 	vector<Owner> owners;
 	// more
@@ -45,10 +58,10 @@ class Owner
 public:
 	string name;
 	int telephone;
-	Owner() :name("empty"), telephone(0), mine(NULL){};
+	Owner() :name("unnamed"), telephone(0), mine(nullptr){};
 	explicit Owner(Estate *estate_c) :Owner(), mine(estate_c) {};
 	int get_size(); //UNIMPLEMENTED
-	void add(House * house_a);
+	void add(House * house_a); //UNIMPLEMENTED
 private:
 	Estate * mine;
 	vector<House> houses;
@@ -60,10 +73,10 @@ class House
 public:
 	string name;
 	enum attribute{price=0, size, adress};
-	House() :name("empty"), mine(NULL) {} ;
+	House() :name("unnamed"), mine(nullptr) {} ;
 	explicit House(Owner *owner_c) :House(), mine(owner_c) {};
-	void add(int &value, attribute attr);
-	void add(string &value, attribute attr);
+	void add(int &value, attribute attr); //UNIMPLEMENTED
+	void add(string &value, attribute attr); //UNIMPLEMENTED
 private:
 	Owner * mine;
 	Data_Object<int> * price_c;
