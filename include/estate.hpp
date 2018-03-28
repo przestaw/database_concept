@@ -9,14 +9,16 @@
 #define ESTATE_AGENCY_HPP
 
 #include "../include/database.hpp"
-//#include <string>
-//#include <vector>
-//#define string std::basic_string<char>
+#include <string>
+#include <vector>
 
+#define string std::basic_string<char>
+//using std::string;
+using std::ostream;
 class Estate;
 class Owner;
 class House;
-using std::ostream;
+
 
 class Estate
 {
@@ -30,11 +32,11 @@ public:
 	void add_house(int size_c, int price_c, string adress, string &name); //UNIMPLEMENTED
 	void add_house(int &size_c, int &price_c, string &adress, string &name_c, Owner * owner_c); //UNIMPLEMENTED
 
-	Owner * get_owner(string name); //UNIMPLEMENTED
-	Owner * get_owner(int &telephone); //UNIMPLEMENTED
-	Owner * get_owner(House * house); //UNIMPLEMENTED
+	Owner * get_owner(string name_S);
+	Owner * get_owner(int &telephone_s);
+	Owner * get_owner(House * house);
 
-	House * get_house(string name); //UNIMPLEMENTED
+	House * get_house(string name_s);
 
 	void show(int mode);//UNIMPLEMENTED
 	friend ostream& operator<<(ostream& os, const Estate& est);
@@ -51,6 +53,7 @@ private:
 
 class Owner
 {
+friend Estate;
 public:
 	string name;
 	int telephone;

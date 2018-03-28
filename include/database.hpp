@@ -13,6 +13,7 @@
 #include <iostream>
 
 #define string std::basic_string<char>
+//using std::string;
 using std::vector;
 using std::ostream;
 
@@ -53,7 +54,7 @@ public:
 	explicit Data() :begin(nullptr), end(nullptr){}; // for future ideas
 	Data<T,O>(const Data<T,O> &old){throw ("Copy constructor for Data Class is not yet implemented"); };
 	Data_Object<T,O> * add(T &data_a, O * owner);
-	Data_Object<T,O> * search(T &data);
+	//Data_Object<T,O> * search(T &data); //deprecated
 	//friend ostream& operator<< <>(ostream& os, const Data<T,O>  &obj_ptr);
 	Data_Object<T,O> * get_end() {return end;};
 	Data_Object<T,O> * get_begin() {return begin;};
@@ -126,7 +127,21 @@ Data_Object<T,O> * Data_Object<T,O>::move(direction dir)
 template <class T, class O>
 Data_Object<T,O> * Data<T,O>::search_poz(T &data)
 {
-	Data_Object<T,O> * ptr;
+	Data_Object<T,O> * ptr = begin;
+	if(ptr){
+		if(ptr->data == data)
+		{
+			return ptr;
+		}
+		do{
+			ptr=ptr->next;
+			if(ptr->data == data)
+			{
+				return ptr;
+			}
+		}while(ptr != end);
+	}
+/*
 	for(ptr = begin; ptr != end; ptr=ptr->next)
 	{
 		if(ptr->data == data)
@@ -138,9 +153,10 @@ Data_Object<T,O> * Data<T,O>::search_poz(T &data)
 			return ptr->prev;
 		}
 	}
-	return nullptr;			//consider adding variant for 1 element list
+*/
+	return nullptr;
 }
-
+/*			// - - Deprecated - -  - - Deprecated - - - - Deprecated - -
 template <class T, class O>
 Data_Object<T,O> * Data<T,O>::search(T &data)
 {
@@ -153,7 +169,7 @@ Data_Object<T,O> * Data<T,O>::search(T &data)
 		return nullptr;
 	}
 }
-
+*/		// - - Deprecated - -  - - Deprecated - - - - Deprecated - -
 template <class T, class O>
 int Data<T,O>::get_size()
 {

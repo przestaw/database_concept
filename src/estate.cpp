@@ -6,7 +6,7 @@
  */
 
 #include "estate.hpp"
-
+//#include <algorithm>
 //Estate class
 
 ostream& operator<<(ostream& os, const Estate& est)
@@ -23,6 +23,55 @@ int Estate::get_size()
     count = count + i.get_size();
   }
   return count;
+}
+
+Owner * Estate::get_owner(string name_s)
+{
+  for(auto &i : owners)
+  {
+    if(i.name == name_s)
+      return &i;
+  }
+  return nullptr;
+}
+
+Owner * Estate::get_owner(int &telephone_s)
+{
+  for(auto &i : owners)
+  {
+    if(i.telephone == telephone_s)
+      return &i;
+  }
+  return nullptr;
+}
+
+Owner * Estate::get_owner(House * house)
+{
+  for(auto &i : owners)
+  {
+    //if(std::find(houses.begin(), houses.end(), house) != houses.end())
+    for(int j = i.houses.size(); j != 0; --j)
+    {
+      if(i.houses[j-1] == house)
+      {
+        return &i;
+      }
+    }
+  }
+  return nullptr;
+}
+
+House * Estate::get_house(string name_s)
+{
+  for(auto &i : owners)
+  {
+    for(auto &j : i.houses)
+    {
+      if(j->name == name_s)
+        return j;
+    }
+  }
+  return nullptr;
 }
 
 // _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
