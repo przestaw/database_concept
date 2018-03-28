@@ -10,12 +10,12 @@
 #include "database.hpp"
 #include "estate.hpp"
 
-int main() {
-	string name = "Price";
-	Record cokolwiek1(name);
-	Data<int> cokolwiek2();
-	Data<string > cokolwiek3();
-	std::cout << "Hello, World!" << std::endl;
+int main()
+{
+	Estate database("A good estate company");
+	Owner own1;
+	House hou1;
+	std::cout << "Press any key to continue\n";
 	std::cin.get();
 	return 0;
 }

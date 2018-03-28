@@ -19,30 +19,46 @@ using std::ostream;
 class Record;
 
 template <class T, class O = void>
+class Data_Object;
+template <class T, class O = void>
+class Data;
+
+enum direction {forward, reverse};
+
+template <class T, class O>
+ostream& operator<<<>(ostream& os, const Data<T,O> &obj_ptr);
+
+template <class T, class O>
 class Data_Object
 {
-	//friend Data<T,O>;
+	friend Data<T,O>;
 public:
 	T data;
-	Data_Object *prev;
-	Data_Object *next;
 	void add_owner(O * owner);
+	Data_Object<T,O> * move(direction dir);
 	explicit Data_Object(T &data_c);
 	~Data_Object();
-	vector<Record*> mine;
-	friend ostream& operator<<(ostream& os, const Data_Object<T,O> * obj_ptr);
+private:
+	Data_Object *prev;
+	Data_Object *next;
+	vector<O*> mine;
+	//friend ostream& operator<< <>(ostream& os, const Data_Object<T,O>  &obj_ptr);
+	friend ostream& operator<<<>(ostream& os, const Data<T,O> &obj_ptr);
 };
 
 
-template <class T, class O = void>
+template <class T, class O>
 class Data
 {
 public:
-	explicit Data() {}; // for future ideas
+	explicit Data() :begin(nullptr), end(nullptr){}; // for future ideas
 	Data<T,O>(const Data<T,O> &old){throw ("Copy constructor for Data Class is not yet implemented"); };
 	Data_Object<T,O> * add(T &data_a, O * owner);
 	Data_Object<T,O> * search(T &data);
-	friend ostream& operator<<(ostream& os, const Data * obj_ptr);
+	//friend ostream& operator<< <>(ostream& os, const Data<T,O>  &obj_ptr);
+	Data_Object<T,O> * get_end() {return end;};
+	Data_Object<T,O> * get_begin() {return begin;};
+	int get_size();
 private:
 	Data_Object<T,O> * begin;
 	Data_Object<T,O> * end;
@@ -98,10 +114,22 @@ void Data_Object<T,O>::add_owner(O *owner)
 }
 
 template <class T, class O>
-ostream&  operator<<(ostream& os, const Data_Object<T,O> * obj_ptr)
+ostream& operator<<(ostream& os, const Data_Object<T,O>  &obj_ptr)
 {
-	os << obj_ptr->data;
+	os << obj_ptr.data;
 	return os;
+}
+
+template <class T, class O>
+Data_Object<T,O> * Data_Object<T,O>::move(direction dir)
+{
+	if(dir == forward)
+	{
+		return next;
+	}else
+	{
+		return prev;
+	}
 }
 
 // _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
@@ -138,6 +166,20 @@ Data_Object<T,O> * Data<T,O>::search(T &data)
 	{
 		return nullptr;
 	}
+}
+
+template <class T, class O>
+int Data<T,O>::get_size()
+{
+	Data_Object<T,O> * ptr = begin;
+	int i=0;
+	if(ptr){
+		do{
+			ptr=ptr->next;
+			++i;
+		}while(ptr != end);
+	}
+	return i;
 }
 
 template <class T, class O>
@@ -191,16 +233,18 @@ Data_Object<T,O> * Data<T,O>::add(T &data_a,O * owner)
 }
 
 template <class T, class O>
-ostream& operator<<(ostream& os, const Data<T,O> * obj_ptr)
+ostream& operator<<<>(ostream& os, const Data<T,O> &obj_ptr)
 {
 	Data_Object<T,O> * ptr;
-	ptr = obj_ptr->begin;
+	Data_Object<T,O> * ptr_e;
+	ptr = obj_ptr.get_begin();
+	ptr_e = obj_ptr.get_end();
 	if(ptr){
 		os << ptr << '\n';
 		do{
-			ptr=ptr->next;
+			ptr.move(forward);
 			os << ptr << '\n';
-		}while(ptr != obj_ptr->end);
+		}while(ptr != ptr_e);
 	}
 	return os;
 }
