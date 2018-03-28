@@ -26,7 +26,7 @@ class Data;
 enum direction {forward, reverse};
 
 template <class T, class O>
-ostream& operator<<<>(ostream& os, const Data<T,O> &obj_ptr);
+ostream& operator<<(ostream& os, const Data<T,O> &obj_ptr);
 
 template <class T, class O>
 class Data_Object
@@ -43,7 +43,6 @@ private:
 	Data_Object *next;
 	vector<O*> mine;
 	//friend ostream& operator<< <>(ostream& os, const Data_Object<T,O>  &obj_ptr);
-	friend ostream& operator<<<>(ostream& os, const Data<T,O> &obj_ptr);
 };
 
 
@@ -59,6 +58,7 @@ public:
 	Data_Object<T,O> * get_end() {return end;};
 	Data_Object<T,O> * get_begin() {return begin;};
 	int get_size();
+	friend ostream& operator<<<>(ostream& os, const Data<T,O> &obj_ptr);
 private:
 	Data_Object<T,O> * begin;
 	Data_Object<T,O> * end;
@@ -233,16 +233,16 @@ Data_Object<T,O> * Data<T,O>::add(T &data_a,O * owner)
 }
 
 template <class T, class O>
-ostream& operator<<<>(ostream& os, const Data<T,O> &obj_ptr)
+ostream& operator<<(ostream& os, const Data<T,O> &obj_ptr)
 {
 	Data_Object<T,O> * ptr;
 	Data_Object<T,O> * ptr_e;
-	ptr = obj_ptr.get_begin();
-	ptr_e = obj_ptr.get_end();
+	ptr = obj_ptr.begin;
+	ptr_e = obj_ptr.end;
 	if(ptr){
 		os << ptr << '\n';
 		do{
-			ptr.move(forward);
+			ptr->move(forward);
 			os << ptr << '\n';
 		}while(ptr != ptr_e);
 	}
