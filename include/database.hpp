@@ -65,20 +65,6 @@ private:
 	Data_Object<T,O> * search_poz(T &data);
 };
 
-class Record //deprecated
-{
-public:
-	string name;
-	explicit Record(string &name_c)
-			:name(name_c)  {};
-	Record(string &name_c, Record *belonging);
-	//void add_attribute(); //unimplemented
-	void add_belonging(Record *belonging);
-private:
-	//vector<void*> attributes{};
-	vector<Record*> belongings{};
-};
-
 // _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
 
 template <class T, class O>
