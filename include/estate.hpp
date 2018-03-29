@@ -25,6 +25,7 @@ class Estate
 public:
 	string name;
 	Estate() :name("unnamed") {};
+	~Estate();
 	explicit Estate(string name_c) :name(name_c) {};
 	int get_size();
 	Owner * add_owner(int telephone_c, string name_c); 

@@ -145,7 +145,7 @@ bool Owner::operator<(Owner &comp)
 ostream& operator<<(ostream& os, const House& hou)
 {
   os << "\n\t\tHOUSE\n\t\t"<< hou.name
-    << "\n\t\tprive : " << hou.price_c->data << " EUR"
+    << "\n\t\tprice : " << hou.price_c->data << " EUR"
     << "\n\t\tsize : " << hou.size_c->data << " m^2"
     << "\n\t\tadress : " << hou.adress_c->data << '\n';
     return os;

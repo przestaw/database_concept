@@ -50,6 +50,7 @@ class Data
 {
 public:
 	explicit Data() :begin(nullptr), end(nullptr){};
+	~Data();
 	Data<T,O>(const Data<T,O> &old){throw ("Copy constructor for Data Class is not yet implemented"); };
 	Data_Object<T,O> * add(T data_a, O * owner);
 	//Data_Object<T,O> * search(T &data); //deprecated
@@ -121,6 +122,10 @@ Data_Object<T,O> * Data_Object<T,O>::move(direction dir)
 //template <class T, class O>
 //Data::Data()
 
+Data::~Data();
+{
+	delete this->begin;
+}
 template <class T, class O>
 Data_Object<T,O> * Data<T,O>::search_poz(T &data)
 {
@@ -168,7 +173,8 @@ Data_Object<T,O> * Data<T,O>::search(T &data)
 }
 */		// - - Deprecated - -  - - Deprecated - - - - Deprecated - -
 template <class T, class O>
-int Data<T,O>::get_size()
+int Data<T,O>::get_size()      return &i;
+
 {
 	Data_Object<T,O> * ptr = begin;
 	int i=0;
