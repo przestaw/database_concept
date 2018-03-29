@@ -38,12 +38,12 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const Estate& est);
 private:
 	string name;
-	std::vector<Owner> owners;
+	std::vector<Owner*> owners;
 	Data<int, House> size_c;
 	Data<int, House> price_c;
 	Data<string, House> adresses_c;
-	Data<Owner, Estate> owners_c;
-	Data<House, Owner> houses_c;
+	//Data<Owner*, Estate> owners_c;
+	//Data<House*, Owner> houses_c;
 };
 
 #endif //ESTATE_HPP

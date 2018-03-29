@@ -11,7 +11,7 @@ Owner::Owner()
   :name("unnamed"), telephone(0), mine(nullptr)
 {}
 
-explicit Owner::Owner(Estate *estate_c)
+Owner::Owner(Estate *estate_c)
   :name("unnamed"), telephone(0), mine(estate_c)
 {}
 

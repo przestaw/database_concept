@@ -27,7 +27,7 @@ template <class T, class O>
 std::ostream& operator<<(std::ostream& os, const Data<T,O> &obj_ptr);
 
 template <class T, class O>
-std::ostream& operator<<<>(std::ostream& os, const Data_Object<T,O>  &obj_ptr);
+std::ostream& operator<<(std::ostream& os, const Data_Object<T,O>  &obj_ptr);
 
 
 template <class T, class O>
@@ -35,9 +35,10 @@ class Data_Object
 {
 public:
 	T get_data();
-	void set_data();
+	void set_data(T data_s);
 	void add_owner(O * owner);
 	Data_Object<T,O> * move(direction dir);
+	void set(direction dir, Data_Object * ptr);
 	explicit Data_Object(T data_c);
 	~Data_Object();
 private:
@@ -108,9 +109,9 @@ T Data_Object<T,O>::get_data()
 }
 
 template <class T, class O>
-void Data_Object<T,O>::set_data(T data_c)
+void Data_Object<T,O>::set_data(T data_s)
 {
-	data = data_c;
+	data = data_s;
 }
 
 template <class T, class O>
@@ -131,16 +132,28 @@ Data_Object<T,O> * Data_Object<T,O>::move(direction dir)
 		return prev;
 	}
 }
+template <class T, class O>
+void Data_Object<T,O>::set(direction dir, Data_Object * ptr)
+{
+	if(dir == forward)
+	{
+		next = ptr;
+	}else
+	{
+		prev = ptr;
+	}
+}
 
 // _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
 
 //template <class T, class O>
 //Data::Data()
-
-Data::~Data();
+template <class T, class O>
+Data<T,O>::~Data<T,O>()
 {
 	delete this->begin;
 }
+
 template <class T, class O>
 Data_Object<T,O> * Data<T,O>::search_poz(T &data)
 {
@@ -151,7 +164,7 @@ Data_Object<T,O> * Data<T,O>::search_poz(T &data)
 			return ptr;
 		}
 		do{
-			ptr=ptr->next;
+			ptr=ptr->move(forward);
 			if(ptr->get_data() == data)
 			{
 				return ptr;
@@ -181,7 +194,7 @@ int Data<T,O>::get_size()
 	int i=0;
 	if(ptr){
 		do{
-			ptr=ptr->next;
+			ptr=ptr->move(forward);
 			++i;
 		}while(ptr != end);
 	}
@@ -208,7 +221,7 @@ Data_Object<T,O> * Data<T,O>::add(T data_a,O * owner)
 			}else
 			{
 				ptr = new Data_Object<T,O>(data_a);
-				ptr->next->add_owner(owner);
+				(ptr->move(forward))->add_owner(owner);
 				if(begin->get_data() < ptr->get_data())
 				{
 					end = ptr;
@@ -222,16 +235,16 @@ Data_Object<T,O> * Data<T,O>::add(T data_a,O * owner)
 			ptr = search_poz(data_a);
 			if(ptr->get_data() == data_a)
 			{
-				ptr->mine.push_back(owner);
+				ptr->add_owner(owner);
 			}else
 			{
-				Data_Object<T,O> * tmp = ptr->next;
-				ptr->next = new Data_Object<T,O>(data_a);
-				ptr->next->add_owner(owner);
-				ptr->next->prev = ptr;
-				ptr=ptr->next;
-				ptr->next = tmp;
-				ptr->next->prev = ptr;
+				Data_Object<T,O> * tmp = ptr->move(forward);
+				ptr->set(forward,new Data_Object<T,O>(data_a));// = new Data_Object<T,O>(data_a);
+				ptr->move(forward)->add_owner(owner);
+				ptr->move(forward)->set(reverse, ptr);
+				ptr=ptr->move(forward);
+				ptr->set(forward, tmp);
+				ptr->move(forward)->set(reverse, ptr);
 			}
 		}
 	}

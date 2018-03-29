@@ -16,7 +16,7 @@ House::House(string name_c, Owner *owner_c)
   :name(name_c),  mine(owner_c)
 {}
 
-explicit House::House(Owner *owner_c)
+House::House(Owner *owner_c)
   :name("unnamed"),  mine(owner_c)
 {}
 
@@ -47,7 +47,7 @@ int House::get_price()
 
 void House::set_price(int price_s)
 {
-  price_c.set_data(price_s);
+  price_c->set_data(price_s);
 }
 
 void House::set_price(Data_Object<int, House> * price_s)
@@ -88,15 +88,15 @@ void House::set_adress(Data_Object<string, House> * adress_s)
 std::ostream& operator<<(std::ostream& os, const House& hou)
 {
  os << "\n\t\tHOUSE\n\t\t"<< hou.name
-   << "\n\t\tprice : " << hou.price_c->data << " EUR"
-   << "\n\t\tsize : " << hou.size_c->data << " m^2"
-   << "\n\t\tadress : " << hou.adress_c->data << '\n';
+   << "\n\t\tprice : " << hou.price_c->get_data() << " EUR"
+   << "\n\t\tsize : " << hou.size_c->get_data() << " m^2"
+   << "\n\t\tadress : " << hou.adress_c->get_data() << '\n';
    return os;
 }
 
 bool House::operator<(House &comp)
 {
-  if(comp.price_c->data > this->price_c->data)
+  if(comp.price_c->get_data() > this->price_c->get_data())
   {
  	  return true;
 	}else
