@@ -27,18 +27,19 @@ public:
 	Estate() :name("unnamed") {};
 	explicit Estate(string name_c) :name(name_c) {};
 	int get_size();
-	void add_owner(int &telephone, string &name_c); //UNIMPLEMENTED
-	void add_owner(int &telephone, string &name_c, House * house_c); //UNIMPLEMENTED
-	void add_house(int size_c, int price_c, string adress, string &name); //UNIMPLEMENTED
-	void add_house(int &size_c, int &price_c, string &adress, string &name_c, Owner * owner_c); //UNIMPLEMENTED
+	Owner * add_owner(int telephone_c, string name_c); 
+	Owner * add_owner(int telephone_c, string &ame_c, House * house_c); //UNIMPLEMENTED
+	House * add_house(int size, int price, string adress, string name); //UNIMPLEMENTED
+	House * add_house(int size, int price, string adress, string name_c, Owner * owner_c);
 
 	Owner * get_owner(string name_S);
-	Owner * get_owner(int &telephone_s);
+	Owner * get_owner(int telephone_s);
 	Owner * get_owner(House * house);
 
 	House * get_house(string name_s);
 
 	void show(int mode);//UNIMPLEMENTED
+	bool operator<(Estate &comp);
 	friend ostream& operator<<(ostream& os, const Estate& est);
 private:
 	vector<Owner> owners;
@@ -60,9 +61,11 @@ public:
 	Owner() :name("unnamed"), telephone(0), mine(nullptr){};
 	explicit Owner(Estate *estate_c) :name("unnamed"), telephone(0), mine(estate_c) {};
 	explicit Owner(string name_c, Estate *estate_c) :name(name_c), telephone(0), mine(estate_c) {};
+	explicit Owner(string name_c, int &telephone_c, Estate *estate_c) :name(name_c), telephone(telephone_c), mine(estate_c) {};
 	int get_size();
 	void add(House * house_a);
 	friend ostream& operator<<(ostream& os, const Owner& own);
+	bool operator<(Owner &comp);
 private:
 	Estate * mine;
 	vector<House*> houses;
@@ -79,6 +82,7 @@ public:
 	explicit House(Owner *owner_c) :name("unnamed"),  mine(owner_c) {};
 	explicit House(string name_c, Owner *owner_c) :name(name_c),  mine(owner_c) {};
 	friend ostream& operator<<(ostream& os, const House& hou);
+	bool operator<(House &comp);
 private:
 	Owner * mine;
 	Data_Object<int, House> * price_c;

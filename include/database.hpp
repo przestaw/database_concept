@@ -17,8 +17,6 @@
 using std::vector;
 using std::ostream;
 
-class Record;
-
 template <class T, class O = void>
 class Data_Object;
 template <class T, class O = void>
@@ -37,7 +35,7 @@ public:
 	T data;
 	void add_owner(O * owner);
 	Data_Object<T,O> * move(direction dir);
-	explicit Data_Object(T &data_c);
+	explicit Data_Object(T data_c);
 	~Data_Object();
 private:
 	Data_Object *prev;
@@ -51,11 +49,10 @@ template <class T, class O>
 class Data
 {
 public:
-	explicit Data() :begin(nullptr), end(nullptr){}; // for future ideas
+	explicit Data() :begin(nullptr), end(nullptr){};
 	Data<T,O>(const Data<T,O> &old){throw ("Copy constructor for Data Class is not yet implemented"); };
-	Data_Object<T,O> * add(T &data_a, O * owner);
+	Data_Object<T,O> * add(T data_a, O * owner);
 	//Data_Object<T,O> * search(T &data); //deprecated
-	//friend ostream& operator<< <>(ostream& os, const Data<T,O>  &obj_ptr);
 	Data_Object<T,O> * get_end() {return end;};
 	Data_Object<T,O> * get_begin() {return begin;};
 	int get_size();
@@ -69,7 +66,7 @@ private:
 // _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
 
 template <class T, class O>
-Data_Object<T,O>::Data_Object (T &data_c)
+Data_Object<T,O>::Data_Object (T data_c)
 		:data(data_c), prev(0), next(0)
 {}
 
@@ -185,12 +182,12 @@ int Data<T,O>::get_size()
 }
 
 template <class T, class O>
-Data_Object<T,O> * Data<T,O>::add(T &data_a,O * owner)
+Data_Object<T,O> * Data<T,O>::add(T data_a,O * owner)
 {
 	Data_Object<T,O> * ptr;
 	if(begin == nullptr)
 	{
-		ptr = new Data_Object<T,O>(&data_a);
+		ptr = new Data_Object<T,O>(data_a);
 		end = ptr;
 		end = begin;
 	}else
@@ -203,7 +200,7 @@ Data_Object<T,O> * Data<T,O>::add(T &data_a,O * owner)
 				return begin; //remember about this return
 			}else
 			{
-				ptr = new Data_Object<T,O>(&data_a);
+				ptr = new Data_Object<T,O>(data_a);
 				ptr->next->add_owner(owner);
 				if(begin->data < ptr->data)
 				{
@@ -215,14 +212,14 @@ Data_Object<T,O> * Data<T,O>::add(T &data_a,O * owner)
 			}
 		}else
 		{
-			ptr = search_poz(&data_a);
+			ptr = search_poz(data_a);
 			if(ptr->data == data_a)
 			{
 				ptr->mine.push_back(owner);
 			}else
 			{
 				Data_Object<T,O> * tmp = ptr->next;
-				ptr->next = new Data_Object<T,O>(&data_a);
+				ptr->next = new Data_Object<T,O>(data_a);
 				ptr->next->add_owner(owner);
 				ptr->next->prev = ptr;
 				ptr=ptr->next;

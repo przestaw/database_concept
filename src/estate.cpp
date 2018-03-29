@@ -6,12 +6,16 @@
  */
 
 #include "estate.hpp"
-//#include <algorithm>
+#include <algorithm>
 //Estate class
 
 ostream& operator<<(ostream& os, const Estate& est)
 {
-  os << "ESTATE AGENCY\n" << est.name <<'\n'<< est.owners_c;
+  os << "ESTATE AGENCY\n" << est.name <<'\n';
+  for(auto i : est.owners)
+  {
+	os << i;
+  }
   return os;
 }
 
@@ -25,6 +29,23 @@ int Estate::get_size()
   return count;
 }
 
+Owner * Estate::add_owner(int telephone_c, string name_c)
+{
+	Owner * ptr = new Owner(name_c, telephone_c, this);
+	owners.push_back(*ptr);
+	return &(owners.back());
+}
+
+House * Estate::add_house(int size, int price, string adress, string name, Owner * owner_c)
+{
+	House * ptr = new House(name, owner_c);
+	ptr->price_c = this->price_c.add(price, ptr);
+	ptr->adress_c = this->adresses_c.add(adress, ptr);
+	ptr->size_c = this->size_c.add(size, ptr);
+	owner_c->add(ptr);
+	return ptr;
+}
+
 Owner * Estate::get_owner(string name_s)
 {
   for(auto &i : owners)
@@ -35,7 +56,7 @@ Owner * Estate::get_owner(string name_s)
   return nullptr;
 }
 
-Owner * Estate::get_owner(int &telephone_s)
+Owner * Estate::get_owner(int telephone_s)
 {
   for(auto &i : owners)
   {
@@ -74,6 +95,17 @@ House * Estate::get_house(string name_s)
   return nullptr;
 }
 
+bool Estate::operator<(Estate &comp)
+{
+	if(comp.name > this->name)
+	{
+		return true;
+	}else
+	{
+		return false;
+	}
+}
+
 // _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
 //Owner class
 
@@ -96,6 +128,17 @@ void Owner::add(House * house_a)
 {
   houses.push_back(house_a);
 }
+
+bool Owner::operator<(Owner &comp)
+{
+	if(comp.name > this->name)
+	{
+		return true;
+	}else
+	{
+		return false;
+	}
+}
 // _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ - _ -
 //House class
 
@@ -106,4 +149,15 @@ ostream& operator<<(ostream& os, const House& hou)
     << "\n\t\tsize : " << hou.size_c->data << " m^2"
     << "\n\t\tadress : " << hou.adress_c->data << '\n';
     return os;
+}
+
+bool House::operator<(House &comp)
+{
+	if(comp.price_c->data > this->price_c->data)
+	{
+		return true;
+	}else
+	{
+		return false;
+	}
 }
