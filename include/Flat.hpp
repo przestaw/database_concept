@@ -1,3 +1,11 @@
+/*
+ * Flat.hpp
+ * Class 'Flat' declaration
+ *
+ * PROI, project 3
+ * Tutor: Wiktor Kusmirek
+ * Version: 22.05.18, Kamil Zacharczuk
+ */
 #ifndef FLAT_HPP
 #define FLAT_HPP
 

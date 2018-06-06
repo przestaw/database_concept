@@ -1,10 +1,12 @@
 /*
- *  Przemyslaw Stawczyk 293153
- *  Wiktor Kusmirek
- *  Second exercise for PROI course
- *	class declaration
+ * Estate.hpp
+ * Class 'Estate' declaration
+ *
+ * PROI, project 3
+ * Tutor: Wiktor Kusmirek
+ * Version: 06.06.18, Kamil Zacharczuk
+ * Based on work by Przemyslaw Stawczyk
  */
-
 #ifndef ESTATE_HPP
 #define ESTATE_HPP
 

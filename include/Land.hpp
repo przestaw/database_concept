@@ -1,3 +1,11 @@
+/*
+ * Land.hpp
+ * Class 'Land' declaration
+ *
+ * PROI, project 3
+ * Tutor: Wiktor Kusmirek
+ * Version: 06.06.18, Kamil Zacharczuk
+ */
 #ifndef LAND_HPP
 #define LAND_HPP
 

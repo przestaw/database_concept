@@ -5,7 +5,8 @@
  *
  * PROI, project 3
  * Tutor: Wiktor Kusmirek
- * Version: 22.05.18, Kamil Zacharczuk
+ * Version: 06.06.18, Kamil Zacharczuk
+ * Based on work by Przemyslaw Stawczyk
  */
 
 #ifndef PROPERTY_HPP

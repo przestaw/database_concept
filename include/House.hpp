@@ -1,3 +1,11 @@
+/*
+ * House.hpp
+ * Class 'House' declaration
+ *
+ * PROI, project 3
+ * Tutor: Wiktor Kusmirek
+ * Version: 06.06.18, Kamil Zacharczuk
+ */
 #ifndef HOUSE_HPP
 #define HOUSE_HPP
 
