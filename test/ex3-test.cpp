@@ -6,23 +6,28 @@
  * Tutor: Wiktor Kusmirek
  * Version: 06.06.2018, Kamil Zacharczuk
  */
-#include <boost/test/unit_test.hpp>
+ #define BOOST_TEST_MODULE PROI__PROJECT_3_TEST
+#include <boost/test/included/unit_test.hpp>
+
 #include <iostream>
 #include <sstream>
 #include "Estate.hpp"
 
-
 #define VALIDTEL 500111222
 
-BOOST_AUTO_TEST_SUITE (Estate_Test_Suite)
+#include <sstream>
+std::stringstream  silent;
 
+using namespace boost::unit_test;
 
-	BOOST_AUTO_TEST_CASE (MustFail)
+BOOST_AUTO_TEST_SUITE(Estate_Test_Suite)
+
+	BOOST_AUTO_TEST_CASE(MustFail)
 	{
 		BOOST_CHECK (2<0);
 	}
 
-	BOOST_AUTO_TEST_CASE (Adding_Stuff_Test_Case)
+	BOOST_AUTO_TEST_CASE(Adding_Stuff_Test_Case)
 	{
 		Estate est;
 
@@ -35,16 +40,16 @@ BOOST_AUTO_TEST_SUITE (Estate_Test_Suite)
 		BOOST_CHECK_EQUAL (validflat->show_address(), "ul. jakasulica 24 m. 8");
 	}
 
-	BOOST_AUTO_TEST_CASE (Invalid_Tel_Test_Case)
+	BOOST_AUTO_TEST_CASE(Invalid_Tel_Test_Case)
 	{
 		Estate est;
 
 		Owner* own = est.add_owner(VALIDTEL, "imie");
 
-		BOOST_CHECK_NO_THROW (std::cout << est);
+		BOOST_CHECK_NO_THROW(silent << est);
 	}
 
-	BOOST_AUTO_TEST_CASE (Comparing_Case)
+	BOOST_AUTO_TEST_CASE(Comparing_Case)
 	{
 		BOOST_CHECK ( *(new Estate("Bbb")) < *(new Estate("Aaaaa")));
 	}
@@ -52,4 +57,3 @@ BOOST_AUTO_TEST_SUITE (Estate_Test_Suite)
 BOOST_AUTO_TEST_SUITE_END()
 
 //eof
-

@@ -11,7 +11,7 @@
 #include <iostream>
 #define string std::basic_string<char>
 #include "database.hpp"
-#include "estate.hpp"
+#include "Estate.hpp"
 
 int main()
 {
