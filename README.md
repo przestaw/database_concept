@@ -1,2 +1,3 @@
-# database_concept
-Second application for object oriented programming course. Titile: estate agency
+# estate_agency
+Project #3 for object-oriented programming course
+Based on work by przestaw 

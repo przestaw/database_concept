@@ -1,8 +1,12 @@
 /*
- *  Przemyslaw Stawczyk 293153
- *  Wiktor Kusmirek
- *  Second exercise for PROI course
- *	class declaration
+ * database.hpp
+ * Implemention of a database
+ * Template classes 'Data_Object', 'Data'
+ * 
+ * PROI, project 3
+ * Tutor: Wiktor Kusmirek
+ * Version: 06.06.18, Kamil Zacharczuk
+ * Full work by Przemyslaw Stawczyk
  */
 
 #ifndef DATABASE_HPP
@@ -35,7 +39,7 @@ class Data_Object
 {
 public:
 	T get_data();
-	void set_data(T data_s);
+	T set_data(T data_s);
 	void add_owner(O * owner);
 	Data_Object<T,O> * move(direction dir);
 	void set(direction dir, Data_Object * ptr);
@@ -109,9 +113,10 @@ T Data_Object<T,O>::get_data()
 }
 
 template <class T, class O>
-void Data_Object<T,O>::set_data(T data_s)
+T Data_Object<T,O>::set_data(T data_s)
 {
 	data = data_s;
+	return data;
 }
 
 template <class T, class O>
