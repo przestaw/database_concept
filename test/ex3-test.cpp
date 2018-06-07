@@ -15,7 +15,6 @@
 
 #define VALIDTEL 500111222
 
-#include <sstream>
 std::stringstream  silent;
 
 using namespace boost::unit_test;
@@ -27,26 +26,25 @@ BOOST_AUTO_TEST_SUITE(Estate_Test_Suite)
 		BOOST_CHECK (2<0);
 	}
 
-	BOOST_AUTO_TEST_CASE(Adding_Stuff_Test_Case)
+	BOOST_AUTO_TEST_CASE(Adding_Owner_Test_Case)
 	{
 		Estate est;
 
 		Owner* own = est.add_owner(VALIDTEL, "imie");
 
+		BOOST_CHECK_EQUAL (own->show_name(), "imie");
 		BOOST_CHECK_EQUAL (own->show_telephone(), VALIDTEL);
-
-		Flat* validflat = est.add_flat(500, 25000, "jakasulica", 24, 8, "fajnemieszkanie", own);
-
-		BOOST_CHECK_EQUAL (validflat->show_address(), "ul. jakasulica 24 m. 8");
-	}
-
-	BOOST_AUTO_TEST_CASE(Invalid_Tel_Test_Case)
-	{
-		Estate est;
-
-		Owner* own = est.add_owner(VALIDTEL, "imie");
-
 		BOOST_CHECK_NO_THROW(silent << est);
+	}
+	
+	BOOST_AUTO_TEST_CASE(Adding_Flat_Test_Case)
+	{
+		Flat* validflat = est.add_flat(500, 25000, "jakasulica", 24, 8, "fajnemieszkanie", own);
+		
+		BOOST_CHECK_EQUAL (validflat->show_name(), "fajnemieszkanie");
+		BOOST_CHECK_EQUAL (validflat->show_size(), 500);
+		BOOST_CHECK_EQUAL (validflat->show_price(), 25000);
+		BOOST_CHECK_EQUAL (validflat->show_address(), "ul. jakasulica 24 m. 8");
 	}
 
 	BOOST_AUTO_TEST_CASE(Comparing_Case)
